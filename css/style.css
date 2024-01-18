@@ -1,96 +1,96 @@
 body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 20px;
-    background-color: blanchedalmond;
-  }
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 20px;
+  background-color: blanchedalmond;
+}
 
-  .title{
-    text-align: center;
-    font-size: 3pc
-  }
-  
-  h2 {
-    margin: 0;
-    padding: 10px 0;
-    text-align: center;
-  }
-  
-  .card {
-    background-color: #6fd7e5;
-    padding: 10px;
-    margin-bottom: 10px;
-    border-radius: 15px;
-  }
-  
-  ul {
-    list-style-type: none;
-    padding: 0;
-  }
+.title {
+  text-align: center;
+  font-size: 3pc;
+}
 
-  .column {
-    flex: 1;
-    margin-right: 20px;
-  }
-  
-  form {
-    margin-bottom: 20px;
-  }
-  
-  label {
-    display: block;
-    font-weight: bold;
-    margin-bottom: 5px;
-  }
-  
-  input[type="text"],
-  textarea {
-    width: 100%;
-    padding: 5px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-  }
-  
-  input[type="submit"] {
-    padding: 5px 10px;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
+h2 {
+  margin: 0;
+  padding: 10px 0;
+  text-align: center;
+}
 
-  .cardForm {
-    padding: 20px;
-    border: 1px solid #ccc;
-    background-color: #f2f2f2;
-    border-radius: 5px;
-  }
-  
-  .cardForm label {
-    display: inline-block;
-    font-weight: bold;
-    margin-bottom: 5px;
-  }
-  
-  .cardForm input[type="text"] {
-    width: 100%;
-    padding: 8px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    box-sizing: border-box;
-    margin-bottom: 10px;
-  }
-  
-  .cardForm input[type="submit"] {
-    background-color: #4CAF50;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
-  .cardForm input[type="submit"]:hover {
-    background-color: #45a049;
-  }
+.card {
+  background-color: #60ecff;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 15px;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.column {
+  flex: 1;
+  margin-right: 20px;
+}
+
+form {
+  margin-bottom: 20px;
+}
+
+label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+input[type="text"],
+textarea {
+  width: 100%;
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+input[type="submit"] {
+  padding: 5px 10px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.cardForm {
+  padding: 20px;
+  border: 1px solid #ccc;
+  background-color: #f2f2f2;
+  border-radius: 5px;
+}
+
+.cardForm label {
+  display: inline-block;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.cardForm input[type="text"] {
+  width: 100%;
+  padding: 8px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+  margin-bottom: 10px;
+}
+
+.cardForm input[type="submit"] {
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.cardForm input[type="submit"]:hover {
+  background-color: #45a049;
+}
