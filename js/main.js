@@ -112,23 +112,31 @@ let app = new Vue({
       this.MoveSecondColm();
     },
     addItem() {
-      if (this.noteTitle && this.items.length < 4) {
+      if (this.noteTitle && this.items.length < 5) {
         this.items.push({ text: '', checked: false });
       }
     },
-    createNotes() {
-      const newGroup = {
-        id: Date.now(),
-        groupName: this.groupName,
-        items: this.items
-      };
-
-      if (this.firstColumn.length < 3) {
-        this.firstColumn.push(newGroup);
-      }
-
-      this.groupName = null;
-      this.items = [];
+    createNotes: function() {
+        if (
+          this.noteTitle &&                      // Проверка на заполненность заголовка
+          this.items.length >= 3 &&              // Проверка на минимальное количество элементов
+          this.items.length <= 5 &&              // Проверка на максимальное количество элементов
+          !this.items.some(item => !item.text.trim())  // Проверка на пустые элементы
+        ) {
+          const newNoteGroup = {
+            id: Date.now(),
+            noteTitle: this.noteTitle,
+            items: this.items,
+            isComplete: false,
+            lastChecked: null
+          };
+  
+          this.firstColumn.push(newNoteGroup);
+          this.saveData();
+  
+          this.noteTitle = '';
+          this.items = [];
+        }
     },
     deleteItem(index) {
       this.items.splice(index, 1);
