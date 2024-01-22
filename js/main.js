@@ -7,7 +7,7 @@ const initialData = storageData ? JSON.parse(storageData) : {
   thirdColumn: []
 };
 
-let app = new Vue({
+const app = new Vue({
   el: '#app',
   data: {
     firstColumn: initialData.firstColumn,
@@ -23,32 +23,34 @@ let app = new Vue({
   },
   watch: {
     firstColumn: {
-      handler(newFirstColumn) {
+      handler: function(newFirstColumn) {
         this.saveData();
       },
       deep: true
     },
     secondColumn: {
-      handler(newSecondColumn) {
+      handler: function(newSecondColumn) {
         this.saveData();
+        this.checkDisableFirstColumn();
       },
       deep: true
     },
     thirdColumn: {
-      handler(newThirdColumn) {
+      handler: function(newThirdColumn) {
         this.saveData();
       },
       deep: true
     },
     items: {
-      handler(newItems) {
+      handler: function(newItems) {
         this.saveData();
+        this.checkDisableFirstColumn();
       },
       deep: true
     }
   },
   methods: {
-    saveData() {
+    saveData: function() {
       const data = {
         firstColumn: this.firstColumn,
         secondColumn: this.secondColumn,
@@ -57,18 +59,18 @@ let app = new Vue({
       };
       localStorage.setItem(storageKey, JSON.stringify(data));
     },
-    deleteGroup(groupId) {
+    deleteGroup: function(groupId) {
       const index = this.thirdColumn.findIndex(group => group.id === groupId);
       if (index !== -1) {
         this.thirdColumn.splice(index, 1);
       }
     },
-    updateProgress(card, item) {
+    updateProgress: function(card, item) {
       const checkedCount = card.items.filter(item => item.checked).length;
       const progress = (checkedCount / card.items.length) * 100;
       card.isComplete = progress === 100;
 
-      if (this.secondColumn.length === 4) {
+      if (this.secondColumn.length === 5) {
         card.items.forEach(item => {
           if (!item.checked) {
             item.disabled = true;
@@ -78,11 +80,14 @@ let app = new Vue({
 
       if (item.checked) {
         item.disabled = true;
+      } else {
+        item.disabled = false;
+        this.checkDisableFirstColumn();
       }
 
       this.checkMoveCard();
     },
-    MoveFirstColm() {
+    MoveFirstColm: function() {
       this.firstColumn.forEach(card => {
         const progress = (card.items.filter(item => item.checked).length / card.items.length) * 100;
 
@@ -95,7 +100,7 @@ let app = new Vue({
         }
       });
     },
-    MoveSecondColm() {
+    MoveSecondColm: function() {
       this.secondColumn.forEach(card => {
         const progress = (card.items.filter(item => item.checked).length / card.items.length) * 100;
         if (progress === 100) {
@@ -107,39 +112,62 @@ let app = new Vue({
         }
       })
     },
-    checkMoveCard() {
+    checkMoveCard: function() {
       this.MoveFirstColm();
       this.MoveSecondColm();
     },
-    addItem() {
-      if (this.noteTitle && this.items.length < 5) {
-        this.items.push({ text: '', checked: false });
+    checkDisableFirstColumn: function() {
+      if (this.secondColumn.length === 5) {
+        const areAllSecondColumnComplete = this.secondColumn.every(note => note.isComplete);
+        this.firstColumn.forEach(note => {
+          note.items.forEach(item => {
+            item.disabled = areAllSecondColumnComplete;
+          });
+        });
+      } else {
+        this.firstColumn.forEach(note => {
+          note.items.forEach(item => {
+            item.disabled = false;
+          });
+        });
       }
     },
-    createNotes: function() {
-        if (
-          this.noteTitle &&                      // Проверка на заполненность заголовка
-          this.items.length >= 3 &&              // Проверка на минимальное количество элементов
-          this.items.length <= 5 &&              // Проверка на максимальное количество элементов
-          !this.items.some(item => !item.text.trim())  // Проверка на пустые элементы
-        ) {
-          const newNoteGroup = {
-            id: Date.now(),
-            noteTitle: this.noteTitle,
-            items: this.items,
-            isComplete: false,
-            lastChecked: null
-          };
-  
-          this.firstColumn.push(newNoteGroup);
-          this.saveData();
-  
-          this.noteTitle = '';
-          this.items = [];
+    addItem: function() {
+      if (this.noteTitle && this.items.length < 5 && this.firstColumn.length < 3) {
+            if (this.items.some(item => item.text.trim() === '')) {
+              // Если есть хотя бы один пустой текст, не добавляем новую запись
+              return;
+            }
+            this.items.push({ id: Date.now(), text: '', checked: false });
+          }
+        },
+        createNotes: function() {
+          if (
+            this.noteTitle &&                      // Проверка на заполненность заголовка
+            this.items.length >= 3 &&              // Проверка на минимальное количество элементов
+            this.items.length <= 5 &&              // Проверка на максимальное количество элементов
+            !this.items.some(item => !item.text.trim())  // Проверка на пустые элементы
+          ) {
+            const newNoteGroup = {
+              id: Date.now(),
+              noteTitle: this.noteTitle,
+              items: this.items,
+              isComplete: false,
+              lastChecked: null
+            };
+    
+            this.firstColumn.push(newNoteGroup);
+            this.saveData();
+    
+            this.noteTitle = '';
+            this.items = [];
+          }
+        },
+        deleteItem: function(index) {
+          this.items.splice(index, 1);
         }
-    },
-    deleteItem(index) {
-      this.items.splice(index, 1);
-    }
-  }
-});
+      },
+      mounted: function() {
+        this.checkDisableFirstColumn();
+      }
+    });
