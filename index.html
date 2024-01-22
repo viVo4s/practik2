@@ -28,7 +28,7 @@
             <div class="column">
                 <h2>Колонка один</h2>
                 <div class="card" v-for="group in firstColumn" :key="group.id">
-                    <h3>{{group.groupName}}</h3>
+                    <h3>{{ group.noteTitle }}</h3>
                     <ul>
                         <li v-for="item in group.items" :key="item.id">
                             <input type="checkbox" v-model="item.checked" :disabled="item.disabled" @change="updateProgress(group, item)">
@@ -40,7 +40,7 @@
             <div class="column">
                 <h2>Колонка два</h2>
                 <div class="card" v-for="group in secondColumn" :key="group.id">
-                    <h3>{{group.groupName}}</h3>
+                    <h3>{{ group.noteTitle }}</h3>
                     <ul>
                         <li v-for="item in group.items" :key="item.id">
                             <input type="checkbox" v-model="item.checked" :disabled="item.disabled" @change="updateProgress(group, item)">
@@ -53,7 +53,7 @@
                 <h2>Колонка три</h2>
                 <div v-for="group in thirdColumn" :key="group.id">
                     <div class="card">
-                        <h3>{{ group.groupName }}</h3>
+                        <h3>{{ group.noteTitle }}</h3>
                         <ul>
                             <li v-for="item in group.items" :key="item.id">
                                 <input type="checkbox" v-model="item.checked" :disabled="item.disabled">
