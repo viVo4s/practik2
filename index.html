@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,32 +8,22 @@
     <link rel="stylesheet" href="css/style.css">
     <title>to do</title>
 </head>
+
 <body>
-<h1 class="title">To Do list</h1>
+    <h1 class="title">To Do list</h1>
     <div id="app">
-        <form class="cardForm" @submit.prevent="addCard">
+        <form class="cardForm" @submit.prevent="addItem">
             <p>
-                <label for="GroupName">Название:</label>
-                <input id="GroupName" v-model="groupName" placeholder="название">
+                <label for="NoteTitle">Title:</label>
+                <input class="titlenote" id="NoteTitle" v-model="noteTitle" placeholder="title" required>
+            </p>
+            <p v-for="(item, index) in items" :key="index">
+                <label>{{ `Action ${index + 1}:` }}</label>
+                <input v-model="item.text" placeholder="Action" required>
             </p>
             <p>
-                <label for="InputOne">Действие 1:</label>
-                <input id="InputOne" v-model="inputOne" placeholder="Действие ">
-            </p>
-            <p>
-                <label for="InputTwo">Действие 2:</label>
-                <input id="InputTwo" v-model="inputTwo" placeholder="Действие ">
-            </p>
-            <p>
-                <label for="InputThr">Действие 3:</label>
-                <input id="InputThr" v-model="inputThr" placeholder="Действие ">
-            </p>
-            <p>
-                <label for="InputFor">Действие 4:</label>
-                <input id="InputFor" v-model="inputFor" placeholder="Действие ">
-            </p>
-            <p>
-                <input type="submit" value="Добавить">
+                <button class="btn" :disabled="items.length >= 5">Add Item</button>
+                <button class="btn create-btn" @click="createNotes" :disabled="items.length === 0">Create</button>
             </p>
         </form>
         <div class="columns" style="display: flex; justify-content: space-evenly; ">
@@ -80,4 +71,5 @@
     </div>
     <script src="./js/main.js"></script>
 </body>
+
 </html>
