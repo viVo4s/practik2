@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,9 +7,8 @@
     <link rel="stylesheet" href="css/style.css">
     <title>to do</title>
 </head>
-
 <body>
-    <h1 class="title">To Do list</h1>
+<h1 class="title">To Do list</h1>
     <div id="app">
         <form class="cardForm" @submit.prevent="addItem">
             <p>
@@ -33,7 +31,7 @@
                     <h3>{{group.groupName}}</h3>
                     <ul>
                         <li v-for="item in group.items" :key="item.id">
-                            <input type="checkbox" v-model="item.checked" @change="updateProgress(group)">
+                            <input type="checkbox" v-model="item.checked" :disabled="item.disabled" @change="updateProgress(group, item)">
                             {{ item.text }}
                         </li>
                     </ul>
@@ -45,7 +43,7 @@
                     <h3>{{group.groupName}}</h3>
                     <ul>
                         <li v-for="item in group.items" :key="item.id">
-                            <input type="checkbox" v-model="item.checked" @change="updateProgress(group)">
+                            <input type="checkbox" v-model="item.checked" :disabled="item.disabled" @change="updateProgress(group, item)">
                             {{ item.text }}
                         </li>
                     </ul>
@@ -58,7 +56,7 @@
                         <h3>{{ group.groupName }}</h3>
                         <ul>
                             <li v-for="item in group.items" :key="item.id">
-                                <input type="checkbox" v-model="item.checked">
+                                <input type="checkbox" v-model="item.checked" :disabled="item.disabled">
                                 {{ item.text }}
                             </li>
                         </ul>
@@ -71,5 +69,4 @@
     </div>
     <script src="./js/main.js"></script>
 </body>
-
 </html>

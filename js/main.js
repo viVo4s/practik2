@@ -7,7 +7,6 @@ const initialData = storageData ? JSON.parse(storageData) : {
   thirdColumn: []
 };
 
-
 let app = new Vue({
   el: '#app',
   data: {
@@ -64,18 +63,23 @@ let app = new Vue({
         this.thirdColumn.splice(index, 1);
       }
     },
-    updateProgress(card) {
+    updateProgress(card, item) {
       const checkedCount = card.items.filter(item => item.checked).length;
       const progress = (checkedCount / card.items.length) * 100;
       card.isComplete = progress === 100;
 
-      if (this.secondColumn.length === 4 ) {
+      if (this.secondColumn.length === 4) {
         card.items.forEach(item => {
           if (!item.checked) {
             item.disabled = true;
           }
         });
-    }
+      }
+
+      if (item.checked) {
+        item.disabled = true;
+      }
+
       this.checkMoveCard();
     },
     MoveFirstColm() {
@@ -88,7 +92,7 @@ let app = new Vue({
           this.secondColumn.push(card);
           this.firstColumn.splice(this.firstColumn.indexOf(card), 1);
           this.MoveSecondColm();
-        } else {}
+        }
       });
     },
     MoveSecondColm() {
@@ -108,7 +112,7 @@ let app = new Vue({
       this.MoveSecondColm();
     },
     addItem() {
-      if (this.noteTitle && this.items.length < 5) {
+      if (this.noteTitle && this.items.length < 4) {
         this.items.push({ text: '', checked: false });
       }
     },
@@ -118,18 +122,16 @@ let app = new Vue({
         groupName: this.groupName,
         items: this.items
       };
-      console.log(this.firstColumn.length < 3)
+
       if (this.firstColumn.length < 3) {
-        this.firstColumn.push(newGroup)
+        this.firstColumn.push(newGroup);
       }
+
       this.groupName = null;
       this.items = [];
     },
     deleteItem(index) {
       this.items.splice(index, 1);
     }
-  },
-  mounted() {
-    // this.checkBlockColumn();
   }
 });
