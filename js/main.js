@@ -121,7 +121,11 @@ const app = new Vue({
         const areAllSecondColumnComplete = this.secondColumn.every(note => note.isComplete);
         this.firstColumn.forEach(note => {
           note.items.forEach(item => {
-            item.disabled = areAllSecondColumnComplete;
+            if (progress >= 50 && !areAllSecondColumnComplete) {
+              item.disabled = true; // Блокировка всех элементов первого столбца, если хотя бы одна карточка в первом столбце выполнена на 50% или более и одна из карточек второго столбца не является полностью выполненной
+            } else {
+              item.disabled = areAllSecondColumnComplete;
+            }
           });
         });
       } else {
@@ -134,40 +138,39 @@ const app = new Vue({
     },
     addItem: function() {
       if (this.noteTitle && this.items.length < 5 && this.firstColumn.length < 3) {
-            if (this.items.some(item => item.text.trim() === '')) {
-              // Если есть хотя бы один пустой текст, не добавляем новую запись
-              return;
-            }
-            this.items.push({ id: Date.now(), text: '', checked: false });
-          }
-        },
-        createNotes: function() {
-          if (
-            this.noteTitle &&                      // Проверка на заполненность заголовка
-            this.items.length >= 3 &&              // Проверка на минимальное количество элементов
-            this.items.length <= 5 &&              // Проверка на максимальное количество элементов
-            !this.items.some(item => !item.text.trim())  // Проверка на пустые элементы
-          ) {
-            const newNoteGroup = {
-              id: Date.now(),
-              noteTitle: this.noteTitle,
-              items: this.items,
-              isComplete: false,
-              lastChecked: null
-            };
-    
-            this.firstColumn.push(newNoteGroup);
-            this.saveData();
-    
-            this.noteTitle = '';
-            this.items = [];
-          }
-        },
-        deleteItem: function(index) {
-          this.items.splice(index, 1);
+        if (this.items.some(item => item.text.trim() === '')) {
+          return;
         }
-      },
-      mounted: function() {
-        this.checkDisableFirstColumn();
+        this.items.push({ id: Date.now(), text: '', checked: false });
       }
-    });
+    },
+    createNotes: function() {
+      if (
+        this.noteTitle &&                      
+        this.items.length >= 3 &&              
+        this.items.length <= 5 &&            
+        !this.items.some(item => !item.text.trim()) 
+      ) {
+        const newNoteGroup = {
+          id: Date.now(),
+          noteTitle: this.noteTitle,
+          items: this.items,
+          isComplete: false,
+          lastChecked: null
+        };
+
+        this.firstColumn.push(newNoteGroup);
+        this.saveData();
+
+        this.noteTitle = '';
+        this.items = [];
+      }
+    },
+    deleteItem: function(index) {
+      this.items.splice(index, 1);
+    }
+  },
+  mounted: function() {
+    this.checkDisableFirstColumn();
+  }
+});
